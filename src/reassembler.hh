@@ -2,6 +2,10 @@
 
 #include "byte_stream.hh"
 
+#include <list>
+#include <string>
+#include <tuple>
+
 class Reassembler
 {
 public:
@@ -41,5 +45,12 @@ public:
   const Writer& writer() const { return output_.writer(); }
 
 private:
-  ByteStream output_; // the Reassembler writes to this ByteStream
+  void push_bytes( uint64_t first_index, std::string data, bool is_last_substring );
+  void cache_bytes( uint64_t first_index, std::string data, bool is_last_substring );
+  void flush_buffer(); 
+
+  std::list<std::tuple<uint64_t, std::string, bool>> unordered_bytes_ {}; 
+  uint64_t num_bytes_pending_ {};                                         
+  uint64_t expecting_index_ {};                                          
+  ByteStream output_; 
 };
