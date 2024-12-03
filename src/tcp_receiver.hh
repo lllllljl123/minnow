@@ -27,4 +27,8 @@ public:
 
 private:
   Reassembler reassembler_;
+  std::optional<Wrap32> zero_point_ {};
+  uint64_t ack_ {};
+  uint64_t stream_index_ {};
+  bool connected_ {};
 };
